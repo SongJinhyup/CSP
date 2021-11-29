@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+			PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+			"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+			
+<sqlMap namespace="reply">
+
+<insert id="insertReply" parameterClass="replyVO">
+	insert into reply (
+						reply_id, board_id, mem_id, reply_parent, reply_content, reply_secret
+						)
+			     values (
+					    #reply_id#, #board_id#, #mem_id#, #reply_parent#, #reply_content#, #reply_secret#
+					     )
+</insert>
+		
+<update id="updateReply" parameterClass="replyVO">
+	update board
+	   set board_title = #board_title#
+	      , prod_id = #prod_id#
+	      , board_date = sysdate
+	      , prod_id = #prod_id#
+	      , board_content = #board_content#
+	      , board_secrete = #board_secrete#
+	 where board_id = #board_id#
+</update>		
+		
+
+<delete id="deleteReply" parameterClass="String">
+	delete 
+	  from board 
+	 where mem_id = #mem_id#
+	 and board_id = #board_id#
+</delete>		
+		
+<select id="getAllReply" resultClass="replyVO">
+    select  board_id 
+		  ,	mem_id 
+		  ,	board_index 
+	      , board_title 
+	      , to_char(board_date, 'yyyy-mm-dd')
+	      , board_content 
+	  from board
+	  where board_index = #board_index#
+</select>		
+
+
+<select id="getReply" parameterClass="String" resultClass="replyVO">
+	SELECT  BOARD_NO boardNo
+	      , BOARD_TITLE boardTitle
+	      , BOARD_WRITER boardWriter
+	      , TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') boardDate
+	      , BOARD_CONTENT boardContent
+	  FROM BOARD
+	 WHERE BOARD_NO = #boardNo#
+</select>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+</sqlMap>			

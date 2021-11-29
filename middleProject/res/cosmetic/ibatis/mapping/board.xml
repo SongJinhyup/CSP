@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+         PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+         "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+         
+<sqlMap namespace="board">
+
+<insert id="insertBoard" parameterClass="boardVO">
+   insert into board (
+                  board_id, mem_id, board_index, board_title,
+                  board_date, board_content, prod_id, board_secrete
+                  )
+              values (
+                    'b' || board_seq.nextval, #mem_id#, #board_index#, #board_title#,
+                    sysdate, #board_content#, #prod_id#, #board_secrete#
+                    )
+</insert>
+      
+<update id="updateBoard" parameterClass="boardVO">
+   update board
+      set board_title = #board_title#
+         , prod_id = #prod_id#
+         , board_date = sysdate
+         , board_content = #board_content#
+         , board_secrete = #board_secrete#
+    where board_id = #board_id#
+</update>      
+      
+<!-- delete보드는 게시판, 리뷰  같이씀 -->
+<delete id="deleteBoard" parameterClass="String">
+   delete from board 
+    where board_id = #board_id#
+</delete>      
+      
+<select id="getAllBoard" resultClass="boardVO">
+    select  board_id 
+        ,   mem_id 
+        ,   board_index 
+         , board_title
+         , prod_id 
+         , to_char(board_date, 'yyyy-mm-dd') board_date
+         , board_content 
+         , board_secrete
+     from board
+     where board_id like 'b%'
+</select>      
+
+
+<select id="getBoard" parameterClass="String" resultClass="boardVO">
+   select  *
+     from board
+    where board_id = #board_id#
+</select>
+
+<select id="searchBoard" parameterClass="boardVO" resultClass="boardVO">
+   select * from board 
+      where board_content like '%'||#board_content#||'%'
+            or board_title like '%'||#board_title#||'%'
+            and board_secrete = '0'
+            and board_id like 'b%'
+</select>
+
+
+
+
+<!-- 여기서부터 리뷰 -->
+<select id="getAllReview" parameterClass="String" resultClass="boardVO">
+SELECT
+    a.board_id,
+    a.board_title,
+    a.mem_id,
+    a.board_content,
+    b.prod_name,
+    a.board_secrete
+FROM
+    board a, prod b
+where 
+    a.prod_id = b.prod_id
+ and
+    a.board_id like 'r%'
+and 
+    a.prod_id = #prod_id#
+</select>   
+
+<select id="countReview" parameterClass="String" resultClass="String">
+SELECT 
+   count(*) 
+FROM 
+   board
+where 
+   board_id like 'r%'
+and
+   prod_id = #prod_id#
+</select>   
+
+<select id="reviewList" resultClass="boardVO" parameterClass="map">
+   select A.* from(
+       select rownum as rnum, B.* from (
+SELECT
+    a.board_id,
+    a.board_title,
+    a.mem_id,
+    a.board_content,
+    b.prod_name,
+    a.board_secrete,
+    a.prod_id
+FROM
+    board a, prod b
+where 
+    a.prod_id = b.prod_id
+ and
+    a.board_id like 'r%'
+and 
+    a.prod_id = #prod_id# order by board_id desc)B
+<![CDATA[where rownum <= #end#)A
+      where A.rnum >= #start#
+   ]]>
+</select>
+
+<insert id="insertReview" parameterClass="boardVO">
+   insert into board (
+                  board_id, mem_id, board_secrete, board_index,
+                  board_date, board_content, prod_id               )
+              values (
+                    'r' || board_seq.nextval, #mem_id#, #board_secrete#, #board_index#,
+                    sysdate, #board_content#, #prod_id#
+                    )
+</insert>
+
+<update id="updateReview" parameterClass="boardVO">
+   update board
+      set board_title = #board_title#
+         , board_date = sysdate
+         , board_content = #board_content#
+    where board_id = #board_id#
+</update>   
+
+
+<select id="searchOrder" parameterClass="map" resultClass="String">
+   select count(*) from mem_order a, detail_order b, delivery c
+   where c.del_status = '배송완료'
+   and a.mem_id = #mem_id#
+   and a.order_id = b.order_id
+   and b.prod_id =#prod_id#
+</select>
+
+
+
+<!-- 여기서부터 notice -->
+<select id="getAllNotice" resultClass="boardVO">
+    select  board_id 
+        ,   board_index 
+         , board_title
+         , board_content
+         , mem_id 
+     from notice
+<!--      where board_id like 'n%' -->
+</select>   
+
+<insert id="insertNotice" parameterClass="boardVO">
+   insert into notice (
+                  board_id, board_index, board_title,
+                  board_content, mem_id               )
+              values (
+                    'n' || board_seq.nextval, #board_index#, #board_title#,
+                    #board_content#,  #mem_id#
+                    )
+</insert>
+
+<update id="updateNotice" parameterClass="boardVO">
+   update notice
+      set board_title = #board_title#
+         , board_index = #board_index# 
+         , board_content = #board_content#
+    where board_id = #board_id#
+</update>   
+
+<delete id="deleteNotice" parameterClass="String">
+   delete from notice 
+    where board_id = #board_id#
+</delete>   
+
+<select id="getNotice" parameterClass="String" resultClass="boardVO">
+   select  *
+     from notice
+    where board_id = #board_id#
+</select>
+</sqlMap>         

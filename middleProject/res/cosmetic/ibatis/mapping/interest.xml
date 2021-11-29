@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="interest">
+	<select id="interestList" parameterClass="String" resultClass="prodVO">
+	  select * from prod where prod_id in (select prod_id from interested_items where mem_id = #mem_id#)
+	</select>
+	
+	<insert id="insertInterest" parameterClass="interestVO">
+		insert into interested_items
+		values(#prod_id#, #mem_id#)
+	</insert>
+	
+	<delete id="deleteInterest" parameterClass="interestVO">
+		delete interested_items where prod_id = #prod_id# and mem_id=#mem_id#
+	</delete>	
+		
+	<insert id="insertCart" parameterClass="interestVO">
+		insert into detail_order
+		values((select order_id 
+			  	  from mem_order 
+			  	 where order_status is null and mem_id = #mem_id#), 
+			  	 #prod_id#,
+			  	 null, 
+			  	 1, 
+			  	 (select prod_price 
+			  	    from prod 
+			  	   where prod_id = #prod_id#))
+		
+	</insert>
+</sqlMap>
+	

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="admin">
+
+<!-- 회원 관리 -->
+<select id="selectMember" parameterClass="String" resultClass="memberVO">
+	select * from mem_detail where mem_id=#mem_id#
+</select>
+
+<select id="getAllMember" resultClass="memberVO">
+	select a.mem_id, b.mem_name, a.mem_email, a.mem_tel from mem_detail a, member b
+    where a.mem_id=b.mem_id and b.mem_type='MT02'
+</select>
+
+<delete id="deleteMember" parameterClass="String">
+	delete
+	from member
+	where mem_id=#mem_id#
+</delete>
+
+<!-- 블랙리스트 -->
+<select id="getAllBlackList" parameterClass="String" resultClass="adminVO">
+	select * from member where mem_blacklist='BLACK'
+</select>
+
+<!-- <update id="updateBlackList" parameterClass="String">
+	update member
+	  set mem_blacklist='BLACK'
+	where mem_id=#mem_id#
+</update> -->
+
+<update id="updateBlackList" parameterClass="String">
+	update member
+	  set mem_blacklist='BLACK'
+	where mem_id=#mem_id#
+</update> 
+
+<update id="deleteBlackList" parameterClass="String">
+	update member
+	   set mem_blacklist='(null)'
+	  where mem_id=#mem_id#
+</update>
+
+
+<!-- 상품 재고 관리 -->
+<!-- <select id="selectProdStock" parameterClass="String" resultClass="prodVO">
+	select prod_name, prod_stock from PROD where prod_id=#prod_id#
+</select> 
+
+<select id="getAllProdStock" resultClass="prodVO">
+	select prod_id, prod_name, prod_stock from PROD 
+</select>
+
+<update id="updateProdStock" parameterClass="prodVO">
+	update PROD
+	set prod_stock = #prod_stock#
+	where prod_id = #prod_id#
+</update> -->
+
+
+<!-- 상품 카테고리 관리 -->
+<!-- <select id="selectLprod" parameterClass="String" resultClass="lprodVO">
+	select * from LPROD where lprod_id=#lprod_id# 
+</select>
+
+<select id="getAllLprod" resultClass="lprodVO">
+	select * from LPROD
+</select>
+
+<update id="updateLprod" parameterClass="lprodVO">
+	update LPROD
+	set lprod_id = #lprod_id#,
+	    lprod_type = #lprod_type#
+	where lprod_id = #lprod_id#
+</update>
+
+<delete id="deleteLprod" parameterClass="String">
+	delete
+	from LPROD
+	where lprod_id = #lprod_id#
+</delete>
+
+<insert id="insertLprod" parameterClass="lprodVO">
+	insert into LPROD
+				values(#lprod_id#, #lprod_type#)
+</insert> -->
+
+
+<!-- 상품 관리 -->
+<!-- <select id="selectProd" parameterClass="prodVO" resultClass="prodVO">
+	select * from prod where prod_id=#prod_id#
+</select>
+
+<select id="getAllProdList" resultClass="prodVO">
+	select * from PROD 
+</select>
+
+<update id="updateProd" parameterClass="lprodVO">
+	update prod set 
+			   lprod_id = #lprod_id#,
+			   prod_name = #prod_name#,
+			   prod_price = #prod_price#,
+			   prod_stock = #prod_stock#
+		where prod_id = #prod_id#
+</update>
+	
+<delete id="deleteProd" parameterClass="String">
+	delete from prod where prod_id = #prod_id#
+</delete>
+
+<insert id="insertProd" parameterClass="prodVO">
+	insert into prod 
+	values (#prod_id#, #lprod_id#, #prod_name#, #prod_price#, 0)
+</insert>  -->
+		
+</sqlMap>
+	

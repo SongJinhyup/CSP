@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="cart">
+
+	<insert id="insertCart" parameterClass="String">
+		insert into mem_order
+		values((select 'O'||to_char(sysdate,'yyyymmdd')||trim(to_char(nvl(max(to_number(substr(order_id,10))),0)+1,'0000')) as order_id
+			  from mem_order
+			 where order_id like 'O'|| to_char(sysdate,'yyyymmdd') || '%'), #mem_id#, sysdate, 0, null)
+	</insert>
+
+	<insert id="insertDeCart" parameterClass="deorderVO">
+		insert into detail_order
+		values(#order_id#, #prod_id#, #del_option#, #del_quanity#, (select prod_price from prod where prod_id = #prod_id#))
+	</insert>
+	
+	<delete id="deleteDetailCart" parameterClass="deorderVO">
+		delete detail_order where order_id = #order_id# and prod_id = #prod_id#
+	</delete>
+	
+	<delete id="deleteCart" parameterClass="String">
+		delete mem_order where order_id = #order_id#
+	</delete>
+
+	<select id="getCartList" parameterClass="String" resultClass="deorderVO">
+		select * from detail_order where order_id 
+		in (select order_id from mem_order where order_status is null and mem_id = #mem_id#) order by prod_id
+	</select>
+	
+	<insert id="insertInter" parameterClass="map">
+		insert into detail_order(order_id, prod_id, del_quanity, del_price)
+		values ((select order_id from mem_order where order_status is null and mem_id = #mem_id#),
+				#prod_id#,
+				1,
+				(select prod_price from prod where prod_id = #prod_id#))
+	</insert>
+	
+	<select id="getCartProd" parameterClass="String" resultClass="prodVO">
+		 select * from prod 
+		  where prod_id IN (select prod_id 
+		  					 from detail_order 
+		  					where order_id in (select order_id
+		  										from mem_order
+		  									   where mem_id = #mem_id#
+		  									     and order_status is null)) order by prod_id
+	</select>
+	
+	<select id="getTotalCart" parameterClass="String" resultClass="orderVO">
+		select * from mem_order	where mem_id = #mem_id# and order_status is null
+	</select>
+	
+	<update id="updateQtyCart" parameterClass="Map">
+	 	update detail_order
+	 	   set del_quanity = #del_quanity#
+	 	where  order_id in (select order_id
+	 	                      from mem_order
+	 	                     where order_id = #order_id#
+	 	                           and mem_id = #mem_id#)
+	 	  and prod_id = #prod_id#
+	</update>
+	
+	<select id="getOrderProduct" parameterClass="String" resultClass="prodVO">
+		select * from prod where prod_id in (select prod_id from detail_order where order_id = #order_id#)
+	</select>
+	
+	<update id="cuponUpdate" parameterClass="String">
+		update mem_detail set mem_cupon = null where mem_id = #mem_id#
+	</update>
+	
+</sqlMap>

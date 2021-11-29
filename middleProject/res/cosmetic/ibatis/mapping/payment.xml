@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="payment">
+	<select id="viewList" resultClass="payVO" parameterClass="String">
+		select * 
+		  from payment 
+		 where order_id in (select order_id 
+		                      from mem_order 
+		                     where mem_id = #mem_id# 
+		                           and order_status = '결제완료')
+	</select>
+	
+	
+	<insert id="insertPayment" parameterClass="payVO">
+	  insert into payment
+	  values(#order_id#, 
+	  		 #pay_type#, 
+	  		 #pay_price#)
+	</insert>
+	
+	<select id="getPayInfo" parameterClass="String" resultClass="payVO">
+		select c.pay_name as pay_type, b.pay_price
+		  from mem_order a, payment b, pay_method c 
+		 where a.order_id = b.order_id
+       		   and b.pay_type = c.pay_type
+       		   and a.order_id = #order_id# 
+	</select>
+	
+	<insert id="insertDelivery" parameterClass="deliveryVO">
+		insert into delivery
+		values(#order_id#, #del_addr#, #mem_id#, #del_no# , (select sysdate + 2 from dual), '배송준비중')
+	</insert>
+</sqlMap>

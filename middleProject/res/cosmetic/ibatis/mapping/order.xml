@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="order">
+  <select id="orderList" parameterClass="String" resultClass="orderVO">
+  	select * from mem_order	where mem_id = #mem_id#
+  	and order_id in (select order_id from payment)
+  </select>
+
+  <select id="detailOrder" parameterClass="String" resultClass="deorderVO">
+    select * from detail_order where order_id = #order_id#
+  </select>
+  
+  <delete id="deletedeOrder">
+  	delete detail_order where order_id = #order_id# and prod_id = #prod_id#;
+  </delete>
+  
+  <delete id="deleteOrder">
+    delete mem_order where order_id = #order_id#
+  </delete>
+  
+  <update id="cancelOrder">
+    update mem_order
+       set order_status = '주문취소 대기중'
+     where order_id = #order_id#
+  </update>
+  
+  <insert id="insertRefund" parameterClass="refundVO">
+  	insert into refund
+  	values (#order_id#, #prod_id#)
+  </insert>
+  
+  <select id="getDelivery" parameterClass="String" resultClass="deliveryVO">
+    select * from delivery where order_id = #order_id#
+  </select>
+  
+ 
+</sqlMap>

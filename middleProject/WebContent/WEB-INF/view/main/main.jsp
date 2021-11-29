@@ -1,0 +1,544 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/main.css">
+     
+        <title>Main_User</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/20c5a1496b.js" crossorigin="anonymous"></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous">
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin="crossorigin">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin="crossorigin">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,600;1,400&display=swap"
+            rel="stylesheet">
+            <script defer src="<%=request.getContextPath()%>/js/main.js" ></script>
+    
+            <!-- <script src='https://codepen.io/rikschennink/pen/amxZqR.js'></script> -->
+            <script type="text/javascript">
+            $(function() {
+				$('#logoimg').on('click', function() {
+					location.reload();
+				})
+			})
+	    		function logoutAct(){
+	    			return confirm("로그아웃 하시겠습니까?");
+	    		};
+				
+    		</script>
+            
+            </head>
+    <body>
+
+        <!--header(navbar)-->
+        <!-- navbar -->
+        <!-- Toggle button -->
+        <% 
+        String id = (String)session.getAttribute("mem_id"); 
+       	System.out.println(id); 
+       %>
+        <nav class="navbar " id="navbar">
+            <div class="container-fluid">
+                <button class="navbar__toggle-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="navbar_menu">
+                    <li class="navbar_menu_item active" data-link ="#main">WHAT`S NEW</li>
+                    <li class="navbar_menu_item" data-link ="#product">PRODUCT</li>
+                    <li class="navbar_menu_item" data-link ="#review">REVIEW</li>
+                    <li class="navbar_menu_item" data-link ="#news">NEWS</li>
+                    <li class="navbar_menu_item" data-link ="#about">ABOUT US</li>
+                    <li class="navbar_menu_item"></li>
+                    <li class="navbar_menu_item"></li>
+                    <img src="<%=request.getContextPath()%>/imgs/logo.png" id="logoimg" class = "logo" alt=""></a>
+                </ul>
+
+
+                <ul class="navbar_menu">
+                    <li class="navbar_menu_item">
+                        <i class="fas fa-search"></i>
+                    </li>
+                    
+                    <!-- 로그인, 로그아웃 세션 유지에 따라 바꾸기 -->
+                 <%
+			
+                if(id != null ){
+                	// id = (String)session.getAttribute("mem_id"); 
+				     System.out.println("세션이 유지됨");  
+				     System.out.println(id);    		
+					
+				%>
+                     <li class="navbar_menu_item">
+                        <a href="<%=request.getContextPath()%>/logout" onclick="return logoutAct()" id="logout">
+                            LogOut
+                        </a>
+                    </li>
+                    <li class="navbar_menu_item">
+                        <a href="<%=request.getContextPath()%>/view/myPage">
+                        <i class="far fa-user"> 
+                        </i></a>
+                    </li>
+                    <li class="navbar_menu_item">
+                        <a href="<%=request.getContextPath()%>/view/cart"  target="_blank">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                    </li>
+				<% 	    
+				}else{
+				     System.out.println("세션이 유지되지않음"); 
+				     System.out.println(id);    		
+				     
+				     
+				
+     			 %>  
+                    <li class="navbar_menu_item">
+                        <a href="<%=request.getContextPath()%>/showlogin">
+                            LogIn
+                        </a>
+                    </li>
+                    
+                <%
+				
+				}
+                
+                %>   
+        
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdownMenuLink"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            English
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item" href="#">Japan</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">China</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Russian</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </nav>
+    <!--main(description)-->
+    <!-- slide effect -->
+    <section class="main" id="main">
+        <div
+            id="carouselExampleFade"
+            class="carousel slide carousel-fade"
+            data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="<%=request.getContextPath()%>/imgs/main1.jpg" class="d-block w-100" alt="main1" >
+                    <div class='slide__con'>
+                        <div class="main_left">
+                            <p class="main__tit">EXFOLIATING PEEL, EXCESS</p>
+                            <p class="main__tail">PORE CARING + PEEL</p>
+                        </div>
+                        <p class="main__tag">NEW VOLCANIC
+                            <br>
+                            CALMING PORE CLAY
+                            <br>
+                            MASK
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="<%=request.getContextPath()%>/imgs/main2.jpg" class="d-block w-100" alt="main2" >
+                    <div class='slide__con'>
+                        <div class="main_left">
+                            <p class="main__tit">Make up, Beauty</p>
+                            <p class="main__tail">NATRURAL POWDER</p>
+                        </div>
+                        <p class="main__tag">POWDER MASKARA
+                            <br>
+                            RIPSTICK
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleFade"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleFade"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- description -->
+
+    </section>
+
+    <!--insta(button)-->
+    <!-- common sub -->
+    <section class="innistar" id="innistar" >
+        <div class="section_container" id="innistar" >
+            <div class="common__head">
+                <p class="common__head-tit">
+                    <span class="innistar__head">INST<i class="fas fa-star"></i>R</span>
+               
+                </p>
+                <p class="common__head-tail">of the month</p>
+            </div>
+
+            <div class="insta__in">
+                <a href=href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star1.jpg" alt="insta" class="insta_img">
+                    <div class="insta_description">
+                        <h3>Anna@gmail.com</h3>
+                        <span>5667457</span>
+                    </div>
+                </a>
+                <a href=href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star2.jpg" alt="insta" class="insta_img">
+                    <div class="insta_description">
+                        <h3>Joy@gmail.com</h3>
+                        <span>Clon coding</span>
+                    </div>
+                </a>
+                <a href=href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star3.jpg" alt="insta" class="insta_img">
+                    <div class="insta_description">
+                        <h3>Diana@gmail.com</h3>
+                        <span>Clon coding</span>
+                    </div>
+                </a>
+                <a href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star4.jpg" alt="insta" class="insta_img">
+                    <div class="insta_description">
+                        <h3>Angela@gmail.com</h3>
+                        <span>Clon coding</span>
+                    </div>
+                </a>
+                <a href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star5.jpg" alt="insta" class="insta_img">
+                    <div class="insta_description">
+                        <h3>Simon@gmail.com</h3>
+                        <span>Clon coding</span>
+                    </div>
+                </a>
+                <a href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star6.jpg" alt="insta" class="insta_img" >
+                    <div class="insta_description">
+                        <h3>Josh@gmail.com</h3>
+                        <span>Clon coding</span>
+                    </div>
+                </a>
+                <a href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star7.jpg" alt="insta" class="insta_img">
+                    <div class="insta_description">
+                        <h3>Elie@gmail.com</h3>
+                        <span>Clon coding</span>
+                    </div>
+                </a>
+                <a href=# class="project" target="blank">
+                    <img src="<%=request.getContextPath()%>/imgs/star8.jpg" alt="insta" class="insta_img">
+                    <div class="insta_description">
+                        <h3>Choi@gmail.com</h3>
+                        <span>Clon coding</span>
+                    </div>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!--product(top/bottom)-->
+<section class="product" id="product">
+    <div class="section_container">
+        <div class="common__head">
+            <p class="common__head-tit">
+                <span class="innistar__head">PRODUCT</span>
+            </p>
+            <p class="common__head-tail">of the month</p>
+        </div>
+
+            <div class="product__container">
+
+            <div class="product__in-box1">
+                <img src="<%=request.getContextPath()%>/imgs/pro1.jpg" alt="" class="product__img">
+                <p class="prodcuct__des">Clay Mask</p>
+                <img src="<%=request.getContextPath()%>/imgs/pro2.jpg" class="product__img">
+                <p class="prodcuct__des">serum</p>
+            </div>
+            <div class="product__in-box2">
+                <img src="<%=request.getContextPath()%>/imgs/pro3.jpg" class="product__img big">
+                <p class="prodcuct__des">sunscreen</p>
+            </div>
+        
+        </div>
+        <a href="<%=request.getContextPath()%>/view/product">
+        <button class="product__buy">
+
+            <div class="buy" >BUY NOW
+                <i class="fas fa-arrow-right"></i>
+            </div>
+        </button>
+    </a>
+    </div>
+</section>
+
+<!--review(-slide page)-->
+<section class="review" id="review">
+    <div class="section_container">
+        <div class="common__head">
+            <p class="common__head-tit">
+                <span class="innistar__head">REVIEW</span>
+            </p>
+            <p class="common__head-tail">of the month</p>
+        </div>
+
+<section id="iphone">
+        <div class="phone">
+            <div class="screen">
+                <header>
+                    <h1>회원님들의 실시간 사용후기</h1>
+                </header>
+                <div class="content-wrapper">
+                    <div class="content">
+                        <ol class="messages">
+                            <li>
+                                <p>ID: h#%87 </br> 몇번째 구매인지 몰라요 넘좋음!ㅎㅎㅎ </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%45 </br> 이거 쓰고 여드름 다 들어갔어요ㅠ 다들쓰세요 </br>Date: 2021.5.9</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%64 </br> 세일기간에 저렴하게 구매했어요 잘맞았으면 좋겠네요. </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%87 </br> 7번째 구매입니다. 항상 칼배송이네요! 여기 제품은 말모..bbbb </br>Date: 2021.10.5</p>
+                            </li>
+                        
+                            <li>
+                                <p>ID: h#%87 </br> 몇번째 구매인지 몰라요 넘좋음!ㅎㅎㅎ </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%45 </br> 이거 쓰고 여드름 다 들어갔어요ㅠ 다들쓰세요 </br>Date: 2021.5.9</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%64 </br> 세일기간에 저렴하게 구매했어요 잘맞았으면 좋겠네요. </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%87 </br> 7번째 구매입니다. 항상 칼배송이네요! 여기 제품은 말모..bbbb </br>Date: 2021.10.5</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%87 </br> 몇번째 구매인지 몰라요 넘좋음!ㅎㅎㅎ </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%45 </br> 이거 쓰고 여드름 다 들어갔어요ㅠ 다들쓰세요 </br>Date: 2021.5.9</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%64 </br> 세일기간에 저렴하게 구매했어요 잘맞았으면 좋겠네요. </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%87 </br> 7번째 구매입니다. 항상 칼배송이네요! 여기 제품은 말모..bbbb </br>Date: 2021.10.5</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%87 </br> 몇번째 구매인지 몰라요 넘좋음!ㅎㅎㅎ </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%45 </br> 이거 쓰고 여드름 다 들어갔어요ㅠ 다들쓰세요 </br>Date: 2021.5.9</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%64 </br> 세일기간에 저렴하게 구매했어요 잘맞았으면 좋겠네요. </br>Date: 2021.3.2</p>
+                            </li>
+                            <li>
+                                <p>ID: h#%87 </br> 7번째 구매입니다. 항상 칼배송이네요! 여기 제품은 말모..bbbb </br>Date: 2021.10.5</p>
+                            </li>
+                            
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <button class="innistar__view">
+        <a href="<%=request.getContextPath()%>/review/reviewList" target="_blank"><div class="view" >View more 
+            <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </button>
+    </div>
+</section>
+
+<!--news-->
+<section class="news" id="news">
+    <div class="section_container">
+        <div class="common__head">
+            <p class="common__head-tit">
+                <span class="innistar__head">NEWS</span>
+            </p>
+            <p class="common__head-tail">of the month</p>
+        </div>
+
+        <div class="news__container">
+            <img src="<%=request.getContextPath()%>/imgs/news_sale.png" alt="news__sale" >
+            <ul class="news__sub">
+                <li class="news__sub-box"><a href="<%=request.getContextPath()%>/board/boardList"  target="_blank"><img src="<%=request.getContextPath() %>/imgs/news_one.png" alt=""></a></li>
+                <li class="news__sub-box"><img src="<%=request.getContextPath() %>/imgs/news_two.png" alt=""></li>
+                <li class="news__sub-box"><img src="<%=request.getContextPath() %>/imgs/news_three.png" alt=""></li>
+            </ul>
+        </div>
+    </section>
+    <!--store -->
+    
+    <div id="foot">
+    <section class="store" id="store">
+        <img src="<%=request.getContextPath()%>/imgs/store.jpg" alt="" class="store__img">
+
+        <div class="store__box">
+            <p class="store__box-title">NOTICE & FAQ</p>
+            <p class="store__box-tail">Find your closest store information, services,<br>
+                opening hours, and contact details.</p>
+            <p class="store__box-btn">
+                <a href="<%=request.getContextPath()%>/noticeList"  target="_blank">View now
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </p>
+        </div>
+
+    </section>
+    <!--footer -->
+    <!-- Site footer -->
+    <footer class="site-footer" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>About</h6>
+                    <p class="text-justify">Scanfcode.com
+                        <i>CODE WANTS TO BE SIMPLE
+                        </i>
+                        is an initiative to help the upcoming programmers with the code. Scanfcode
+                        focuses on providing the most efficient code or snippets as the code wants to be
+                        simple. We will help programmers build up concepts in different programming
+                        languages that include C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP,
+                        Android, SQL and Algorithm.</p>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Categories</h6>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="http://scanfcode.com/category/c-language/">product</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/category/front-end-development/">review</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/category/back-end-development/">order</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/category/java-programming-language/">QnA</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/category/android/">notice</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/category/templates/">my page</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="http://scanfcode.com/about/">About Us</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/contact/">Contact Us</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href="http://scanfcode.com/sitemap/">Sitemap</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <a href="<%=request.getContextPath()%>/main_dark/main_dark.html"><p class="copyright-text">Manager Main  <i class="fas fa-arrow-right"></i>
+                        
+                    </p></a>
+                </div>
+
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li>
+                            <a class="facebook" href="#">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="twitter" href="#">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dribbble" href="#">
+                                <i class="fa fa-dribbble"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="linkedin" href="#">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+
+</html>

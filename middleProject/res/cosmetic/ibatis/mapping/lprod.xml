@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="lprod">
+<select id="selectLprod" parameterClass="String" resultClass="lprodVO">
+	select * from LPROD where lprod_id=#lprod_id# 
+</select>
+
+<select id="getAllLprod" resultClass="lprodVO">
+	select * from LPROD
+</select>
+
+<update id="updateLprod" parameterClass="lprodVO">
+	update LPROD
+	set lprod_type = #lprod_type#
+	where lprod_id = #lprod_id#
+</update>
+
+<delete id="deleteLprod" parameterClass="String">
+	delete
+	from LPROD
+	where lprod_type = #lprod_type#
+</delete>
+
+<insert id="insertLprod" parameterClass="String">
+<!-- 	<selectKey keyProperty="lprod_id" resultClass="string">
+		select 'L00'||''||LPROD_SEQ.NEXTVAL from dual
+	</selectKey> -->
+	insert into LPROD
+				values('L' || substr('1000' || LPROD_SEQ.NEXTVAL, -3), #lprod_type#)
+</insert>
+
+
+
+
+
+
+</sqlMap>

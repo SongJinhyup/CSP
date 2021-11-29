@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="prod">
+
+<!-- 상품 재고 관리 -->
+<select id="selectProdStock" parameterClass="String" resultClass="prodVO">
+	select prod_name, prod_stock from PROD where prod_id=#prod_id#
+</select> 
+
+<select id="getAllProdStock" resultClass="prodVO">
+	select prod_id, prod_name, prod_stock from PROD 
+</select>
+
+<update id="updateProdStock" parameterClass="prodVO">
+	update PROD
+	set prod_stock = #prod_stock#
+	where prod_id = #prod_id#
+</update>
+
+
+<!-- 상품 관리 -->
+<select id="selectProd" parameterClass="prodVO" resultClass="prodVO">
+	select * from PROD where prod_id=#prod_id#
+</select>
+
+<select id="getAllProd" resultClass="prodVO">
+	select * from PROD order by prod_id
+</select>
+
+<update id="updateProd" parameterClass="prodVO">
+	update PROD set 
+		   prod_name = #prod_name#,
+		   prod_price = #prod_price#,
+		   prod_stock = #prod_stock#
+	where prod_id = #prod_id#
+</update>
+
+
+<delete id="deleteProd" parameterClass="String">
+	delete from PROD where prod_id = #prod_id#
+</delete>
+
+<insert id="insertProd" parameterClass="prodVO">
+	insert into PROD 
+	values (#prod_id#, #lprod_id#, #prod_name#, #prod_price#, 0)
+</insert>
+
+
+<!-- 사용자 상품 페이지 출력 및 기능 관련 쿼리문  -->
+
+<select id="getProd" resultClass="prodVO" parameterClass="String">
+    select * from prod where prod_id = #prod_id#
+</select>
+
+<select id="getLprod" resultClass="lprodVO">
+	select b.lprod_id, a.lprod_type from lprod a, prod b 
+	where a.lprod_id = b.lprod_id 
+	order by b.prod_id
+</select>
+
+<select id="countCart" parameterClass="String" resultClass="String">
+	select order_id
+      from mem_order 
+     where mem_id = #mem_id#
+           and order_status is null
+</select>
+
+<select id="getAllLprod" resultClass="lprodVO">
+	select * from lprod
+</select>
+
+<!-- 상품 상세페이지용 쿼리문 -->
+<select id="getIntersted" parameterClass="interestVO" resultClass="int">
+ 	select count(*) from interested_items where prod_id = #prod_id# and mem_id = #mem_id#
+</select>
+</sqlMap>
+	

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberInfo">
+	<select id="getInfo" parameterClass="String" resultClass="memberVO">
+		select
+			a.mem_id,
+			a.mem_pass,
+			a.mem_type,
+			a.mem_name,
+			b.mem_email,
+			b.mem_tel,
+			b.mem_birth,
+			b.mem_cupon,
+			b.mem_blocation
+		from
+			mem_detail b,
+			member a
+		where
+			a.mem_id = b.mem_id
+			and a.mem_id = #mem_id#
+	</select>
+
+	<update id="infoUpdate" parameterClass="memberVO">
+		update mem_detail
+		set
+			mem_email = #mem_email#,
+			mem_tel = #mem_tel#,
+			mem_birth = #mem_birth#,
+			mem_blocation = #mem_blocation#
+		where mem_id = #mem_id#
+	</update>
+	
+	<update id="passUpdate" parameterClass="memberVO">
+		update member
+		set mem_pass = #mem_pass#
+		where mem_id = #mem_id#
+	</update>
+	
+	<delete id="memberDelete">
+	  delete member where mem_id = #mem_id#
+	</delete>
+	
+</sqlMap>
+	
